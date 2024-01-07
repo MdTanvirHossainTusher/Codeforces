@@ -40,21 +40,28 @@ void __f (const char* names, Arg1&& arg1, Args&&... args)
 
 const int N = 200005;
 
-int solve (int n) {
-    string s;
-    cin>>s;
-    int cnt = 0;
+void solve () {
+    int x,y,n;
+    cin>>x>>y>>n;
 
-    if(s.find("...") < n) {
-        return 2;
+    vector<int> v(n);
+    v[0] = x;
+    v[n-1] = y;
+    int cnt = 1;
+
+    /// create 'a' array
+    for (int i = n-2; i >= 1; i--) {
+        v[i] = v[i+1] - cnt;
+        cnt++;
     }
-
-    for(int i = 0; i < n; i++) {
-        if(s[i] == '.') {
-            cnt++;
+    /// check whether 'b' array formed correctly or not
+    for (int i = 1; i < n-1; i++) {
+        if((v[i] - v[i-1]) <= (v[i+1] - v[i])) {
+            cout<<"-1\n";
+            return;
         }
     }
-    return cnt;
+    print(v);
 }
 
 int main() {
@@ -68,11 +75,13 @@ int main() {
     cin >> t;
 
 	while (t--) {
-		int n,p;cin>>n;
+//		int n;cin>>n;
 
-		cout << solve(n) << endl;
+    //		cout << solve() << endl;
+        solve();
 
 	}
 	return 0;
 
 }
+
